@@ -2,5 +2,14 @@
     <string name="app_name">RxAndroidMeetUp</string>
     <string name="action_settings">Settings</string>
 
-    <string name="title_fragment_empty">Empty Fragment</string>
+    <string name="title_fragment_empty">MeetUP - RxAndroid</string>
+    <string name="title_fragment_home">MeetUP - RxAndroid</string>
+
+    <!-- HINT STRINGS -->
+    <string name="hint_search_user">Username</string>
+    <string name="hint_search">Search Repos</string>
+    <!-- END HINT STRINGS -->
+
+    <!-- -->
+    <!-- -->
 </resources>

@@ -6,6 +6,11 @@ package br.com.pedrodimoura.rxandroidmeetup.util;
 public class Constants {
 
     public static final String DEBUG_KEY = "meetup";
-    public static final int FRAGMENT_EMPTY = 1;
+
+    public static final String BASE_URL = "https://api.github.com/";
+    public static final String HOME_URL = "https://www.github.com/";
+
+    public static final int FRAGMENT_HOME = 1;
+    public static final int FRAGMENT_EMPTY = 2;
 
 }
