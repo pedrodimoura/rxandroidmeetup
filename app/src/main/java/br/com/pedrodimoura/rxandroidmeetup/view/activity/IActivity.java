@@ -1,14 +1,18 @@
 package br.com.pedrodimoura.rxandroidmeetup.view.activity;
 
+import android.app.Activity;
+
+import br.com.pedrodimoura.rxandroidmeetup.model.entity.impl.ReposPayload;
+
 /**
  * Created by pedrodimoura on 21/07/16.
  */
 public interface IActivity {
 
-    void showFragment(int idFragment);
+    void showReposOnUI(ReposPayload reposPayload);
 
-    void setCheckedItemNavigationView(int idFragment);
+    void showErrorOnUI(Throwable t);
 
-    boolean isFragmentOnUI(int idFragment);
+    Activity getActivityContext();
 
 }

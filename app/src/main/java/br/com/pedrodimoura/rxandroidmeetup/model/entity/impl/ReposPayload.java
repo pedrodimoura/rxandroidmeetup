@@ -1,5 +1,6 @@
 package br.com.pedrodimoura.rxandroidmeetup.model.entity.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ public class ReposPayload {
 
     private Integer totalCount;
     private Boolean incompleteResults;
-    private List<Repos> items;
+    private List<Repos> items = new ArrayList<>();
 
     public Integer getTotalCount() {
         return totalCount;
