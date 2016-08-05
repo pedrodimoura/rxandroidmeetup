@@ -5,6 +5,8 @@ package br.com.pedrodimoura.rxandroidmeetup.presenter;
  */
 public interface IReposPresenter {
 
+    void loadDefaultRepos();
+
     void searchRepos(String q);
 
     void onStop();

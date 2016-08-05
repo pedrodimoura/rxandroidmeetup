@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements IActivity, View.O
         this.mReposPresenter = new ReposPresenter(MainActivity.this);
 
         initRecyclerView();
+        this.mReposPresenter.loadDefaultRepos();
     }
 
     private void initRecyclerView() {
@@ -94,10 +95,15 @@ public class MainActivity extends AppCompatActivity implements IActivity, View.O
         this.mCompositeSubscription.add(
                 RxSearchView
                         .queryTextChanges(searchView)
-                        .filter(charSequence -> !TextUtils.isEmpty(charSequence))
-                        .throttleLast(500, TimeUnit.MILLISECONDS)
-                        .debounce(500, TimeUnit.MILLISECONDS)
+                        .throttleLast(100, TimeUnit.MILLISECONDS)
+                        .debounce(200, TimeUnit.MILLISECONDS)
                         .onBackpressureLatest()
+                        .filter(charSequence -> {
+                            if (TextUtils.isEmpty(charSequence)) {
+                                this.mReposPresenter.loadDefaultRepos();
+                            }
+                            return !TextUtils.isEmpty(charSequence);
+                        })
                         .subscribe(charSequence -> mReposPresenter.searchRepos(charSequence.toString()))
         );
     }

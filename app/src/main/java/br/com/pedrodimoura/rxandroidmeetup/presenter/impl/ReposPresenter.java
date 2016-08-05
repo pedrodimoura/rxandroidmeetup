@@ -1,6 +1,7 @@
 package br.com.pedrodimoura.rxandroidmeetup.presenter.impl;
 
 import br.com.pedrodimoura.rxandroidmeetup.model.dao.remote.impl.ReposAPI;
+import br.com.pedrodimoura.rxandroidmeetup.model.entity.impl.ReposPayload;
 import br.com.pedrodimoura.rxandroidmeetup.presenter.IReposPresenter;
 import br.com.pedrodimoura.rxandroidmeetup.view.activity.IActivity;
 import rx.android.schedulers.AndroidSchedulers;
@@ -20,6 +21,26 @@ public class ReposPresenter implements IReposPresenter {
         this.mIActivity = iActivity;
         this.mCompositeSubscription = new CompositeSubscription();
         this.mReposAPI = ReposAPI.getInstance();
+    }
+
+    @Override
+    public void loadDefaultRepos() {
+        this.mCompositeSubscription
+                .add(
+                        this.mReposAPI
+                                .getAPI()
+                                .getRepos()
+                                .subscribeOn(Schedulers.io())
+                                .map(repos -> {
+                                    ReposPayload reposPayload = new ReposPayload();
+                                    reposPayload.setItems(repos);
+                                    return reposPayload;
+                                })
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                        mIActivity::showReposOnUI
+                                )
+                );
     }
 
     @Override
