@@ -13,6 +13,8 @@ public interface IActivity {
 
     void showErrorOnUI(Throwable t);
 
+    void showErrorOnUI(int resId);
+
     Activity getActivityContext();
 
 }

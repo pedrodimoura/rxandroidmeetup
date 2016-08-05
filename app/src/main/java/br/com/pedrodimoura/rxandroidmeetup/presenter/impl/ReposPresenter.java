@@ -1,5 +1,6 @@
 package br.com.pedrodimoura.rxandroidmeetup.presenter.impl;
 
+import br.com.pedrodimoura.rxandroidmeetup.R;
 import br.com.pedrodimoura.rxandroidmeetup.model.dao.remote.impl.ReposAPI;
 import br.com.pedrodimoura.rxandroidmeetup.model.entity.impl.ReposPayload;
 import br.com.pedrodimoura.rxandroidmeetup.presenter.IReposPresenter;
@@ -54,7 +55,7 @@ public class ReposPresenter implements IReposPresenter {
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(
                                         mIActivity::showReposOnUI,
-                                        mIActivity::showErrorOnUI
+                                        throwable -> mIActivity.showErrorOnUI(R.string.error_rate_limit)
                                 )
                 );
     }

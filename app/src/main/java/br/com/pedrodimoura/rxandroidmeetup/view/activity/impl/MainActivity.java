@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements IActivity, View.O
     private CompositeSubscription mCompositeSubscription;
     private ReposSearchRecyclerViewAdapter mReposSearchRecyclerViewAdapter;
 
+    private Toast mToast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,14 +52,16 @@ public class MainActivity extends AppCompatActivity implements IActivity, View.O
         this.mCompositeSubscription = new CompositeSubscription();
         this.mReposPresenter = new ReposPresenter(MainActivity.this);
 
-        initRecyclerView();
+        initSet();
         this.mReposPresenter.loadDefaultRepos();
     }
 
-    private void initRecyclerView() {
+    private void initSet() {
         this.mReposSearchRecyclerViewAdapter = new ReposSearchRecyclerViewAdapter(MainActivity.this);
         this.recyclerViewReposSearch.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
         this.recyclerViewReposSearch.setAdapter(this.mReposSearchRecyclerViewAdapter);
+
+        this.mToast = Toast.makeText(getActivityContext(), "", Toast.LENGTH_LONG);
     }
 
     @Override
@@ -120,7 +124,16 @@ public class MainActivity extends AppCompatActivity implements IActivity, View.O
 
     @Override
     public void showErrorOnUI(Throwable t) {
-        Toast.makeText(getActivityContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+        this.mToast.setText(t.getMessage());
+        this.mToast.setDuration(Toast.LENGTH_LONG);
+        this.mToast.show();
+    }
+
+    @Override
+    public void showErrorOnUI(int resId) {
+        this.mToast.setText(resId);
+        this.mToast.setDuration(Toast.LENGTH_LONG);
+        this.mToast.show();
     }
 
     @Override

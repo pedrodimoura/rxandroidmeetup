@@ -10,6 +10,7 @@
     <string name="hint_search">Search Repos</string>
     <!-- END HINT STRINGS -->
 
-    <!-- -->
-    <!-- -->
+    <!-- STRINGS ERROR -->
+    <string name="error_rate_limit">You have reached the limit requests. Try again later</string>
+    <!-- STRINGS ERROR -->
 </resources>
