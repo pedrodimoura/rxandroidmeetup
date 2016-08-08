@@ -10,7 +10,6 @@ public class Constants {
     public static final String BASE_URL = "https://api.github.com/";
     public static final String HOME_URL = "https://www.github.com/";
 
-    public static final int FRAGMENT_HOME = 1;
-    public static final int FRAGMENT_EMPTY = 2;
+    public static final String REPOS = "rps";
 
 }

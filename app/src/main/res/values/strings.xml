@@ -12,5 +12,6 @@
 
     <!-- STRINGS ERROR -->
     <string name="error_rate_limit">You have reached the limit requests. Try again later</string>
+    <string name="title_activity_repos_details">Repos Details</string>
     <!-- STRINGS ERROR -->
 </resources>

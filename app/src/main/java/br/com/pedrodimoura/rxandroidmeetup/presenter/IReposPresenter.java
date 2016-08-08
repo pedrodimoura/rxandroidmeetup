@@ -9,6 +9,8 @@ public interface IReposPresenter {
 
     void searchRepos(String q);
 
+    void getUser(String login);
+
     void onStop();
 
 }

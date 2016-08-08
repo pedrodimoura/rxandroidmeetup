@@ -1,16 +1,20 @@
 package br.com.pedrodimoura.rxandroidmeetup.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import br.com.pedrodimoura.rxandroidmeetup.R;
 import br.com.pedrodimoura.rxandroidmeetup.model.entity.impl.ReposPayload;
+import br.com.pedrodimoura.rxandroidmeetup.util.Constants;
+import br.com.pedrodimoura.rxandroidmeetup.view.activity.impl.ReposDetailsActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -65,7 +69,7 @@ public class ReposSearchRecyclerViewAdapter extends RecyclerView.Adapter<ReposSe
         return (null != this.mReposPayload.getItems() && this.mReposPayload.getItems().size() > 0 ? this.mReposPayload.getItems().size() : 0);
     }
 
-    public class ReposSearchViewHolder extends RecyclerView.ViewHolder {
+    public class ReposSearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.circleImageViewReposOwnerAvatar) CircleImageView circleImageViewReposOwnerAvatar;
         @BindView(R.id.textViewReposName) TextView textViewReposName;
@@ -75,6 +79,25 @@ public class ReposSearchRecyclerViewAdapter extends RecyclerView.Adapter<ReposSe
         public ReposSearchViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(ReposSearchViewHolder.this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            mContext.startActivity(
+                    new Intent(
+                            mContext,
+                            ReposDetailsActivity.class)
+                            .putExtra(
+                                    Constants.REPOS,
+                                    new Gson()
+                                            .toJson(
+                                                    mReposPayload
+                                                            .getItems()
+                                                            .get(getLayoutPosition())
+                                            )
+                            )
+            );
         }
     }
 

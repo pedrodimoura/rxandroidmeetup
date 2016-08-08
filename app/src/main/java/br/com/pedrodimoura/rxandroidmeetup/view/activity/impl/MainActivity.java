@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 import br.com.pedrodimoura.rxandroidmeetup.R;
 import br.com.pedrodimoura.rxandroidmeetup.model.entity.impl.ReposPayload;
+import br.com.pedrodimoura.rxandroidmeetup.model.entity.impl.User;
 import br.com.pedrodimoura.rxandroidmeetup.presenter.impl.ReposPresenter;
 import br.com.pedrodimoura.rxandroidmeetup.view.activity.IActivity;
 import br.com.pedrodimoura.rxandroidmeetup.view.adapter.ReposSearchRecyclerViewAdapter;
@@ -65,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements IActivity, View.O
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         if (!this.mCompositeSubscription.isUnsubscribed()) this.mCompositeSubscription.unsubscribe();
 
         mReposPresenter.onStop();
@@ -120,6 +121,11 @@ public class MainActivity extends AppCompatActivity implements IActivity, View.O
     @Override
     public void showReposOnUI(ReposPayload reposPayload) {
         this.mReposSearchRecyclerViewAdapter.updateList(reposPayload);
+    }
+
+    @Override
+    public void showUserOnUI(User user) {
+
     }
 
     @Override
