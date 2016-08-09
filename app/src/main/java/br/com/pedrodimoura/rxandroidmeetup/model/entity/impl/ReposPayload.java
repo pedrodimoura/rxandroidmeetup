@@ -8,25 +8,7 @@ import java.util.List;
  */
 public class ReposPayload {
 
-    private Integer totalCount;
-    private Boolean incompleteResults;
     private List<Repos> items = new ArrayList<>();
-
-    public Integer getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(Integer totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public Boolean getIncompleteResults() {
-        return incompleteResults;
-    }
-
-    public void setIncompleteResults(Boolean incompleteResults) {
-        this.incompleteResults = incompleteResults;
-    }
 
     public List<Repos> getItems() {
         return items;
@@ -39,9 +21,7 @@ public class ReposPayload {
     @Override
     public String toString() {
         return "ReposPayload{" +
-                "totalCount=" + totalCount +
-                ", incompleteResults=" + incompleteResults +
-                ", items=" + items +
+                "items=" + items +
                 '}';
     }
 }

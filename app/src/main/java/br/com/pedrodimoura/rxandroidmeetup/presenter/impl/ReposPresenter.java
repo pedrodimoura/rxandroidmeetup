@@ -93,6 +93,6 @@ public class ReposPresenter implements IReposPresenter {
 
     @Override
     public void onStop() {
-        this.mCompositeSubscription.unsubscribe();
+        if (!this.mCompositeSubscription.isUnsubscribed()) this.mCompositeSubscription.unsubscribe();
     }
 }
