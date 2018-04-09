@@ -3,18 +3,14 @@ package br.com.pedrodimoura.rxandroidmeetup.view.activity.impl;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
-import android.os.Build;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,33 +19,29 @@ import com.jakewharton.rxbinding.support.v7.widget.RxSearchView;
 import java.util.concurrent.TimeUnit;
 
 import br.com.pedrodimoura.rxandroidmeetup.R;
+import br.com.pedrodimoura.rxandroidmeetup.databinding.ActivityMainBinding;
 import br.com.pedrodimoura.rxandroidmeetup.model.entity.impl.ReposPayload;
 import br.com.pedrodimoura.rxandroidmeetup.model.entity.impl.User;
 import br.com.pedrodimoura.rxandroidmeetup.presenter.impl.ReposPresenter;
 import br.com.pedrodimoura.rxandroidmeetup.view.activity.IActivity;
 import br.com.pedrodimoura.rxandroidmeetup.view.adapter.ReposSearchRecyclerViewAdapter;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import rx.subscriptions.CompositeSubscription;
 
 public class MainActivity extends AppCompatActivity implements IActivity, View.OnClickListener {
 
-    @BindView(R.id.toolbarMainActivity) Toolbar toolbarMainActivity;
-    @BindView(R.id.recyclerViewReposResultSearch) RecyclerView recyclerViewReposSearch;
+    private ActivityMainBinding mActivityMainBinding;
 
-    private SearchView mSearchView;
     private ReposPresenter mReposPresenter;
     private CompositeSubscription mCompositeSubscription;
     private ReposSearchRecyclerViewAdapter mReposSearchRecyclerViewAdapter;
-
-    private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(MainActivity.this);
-        setSupportActionBar(toolbarMainActivity);
+
+        this.mActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setSupportActionBar(this.mActivityMainBinding.toolbarMainActivity.defaultToolbar);
         this.mCompositeSubscription = new CompositeSubscription();
         this.mReposPresenter = new ReposPresenter(MainActivity.this);
 
@@ -59,10 +51,8 @@ public class MainActivity extends AppCompatActivity implements IActivity, View.O
 
     private void initSet() {
         this.mReposSearchRecyclerViewAdapter = new ReposSearchRecyclerViewAdapter(MainActivity.this);
-        this.recyclerViewReposSearch.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
-        this.recyclerViewReposSearch.setAdapter(this.mReposSearchRecyclerViewAdapter);
-
-        this.mToast = Toast.makeText(getActivityContext(), "", Toast.LENGTH_LONG);
+        this.mActivityMainBinding.contentMain.recyclerViewReposResultSearch.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
+        this.mActivityMainBinding.contentMain.recyclerViewReposResultSearch.setAdapter(this.mReposSearchRecyclerViewAdapter);
     }
 
     @Override
@@ -80,18 +70,17 @@ public class MainActivity extends AppCompatActivity implements IActivity, View.O
         inflater.inflate(R.menu.menu_main, menu);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem menuItem = menu.findItem(R.id.action_search);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        } else {
-            mSearchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        SearchView searchView;
+
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+        if (searchManager != null) {
+            searchView.setSearchableInfo(
+                    searchManager.getSearchableInfo(getComponentName()));
+
+            registerToSearchViewEvents(searchView);
         }
-
-        mSearchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-
-        registerToSearchViewEvents(mSearchView);
 
         return true;
     }
@@ -130,16 +119,12 @@ public class MainActivity extends AppCompatActivity implements IActivity, View.O
 
     @Override
     public void showErrorOnUI(Throwable t) {
-        this.mToast.setText(t.getMessage());
-        this.mToast.setDuration(Toast.LENGTH_LONG);
-        this.mToast.show();
+        Toast.makeText(this, t.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showErrorOnUI(int resId) {
-        this.mToast.setText(resId);
-        this.mToast.setDuration(Toast.LENGTH_LONG);
-        this.mToast.show();
+        Toast.makeText(this, resId, Toast.LENGTH_LONG).show();
     }
 
     @Override

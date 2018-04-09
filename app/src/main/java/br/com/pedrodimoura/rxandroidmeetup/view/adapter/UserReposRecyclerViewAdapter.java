@@ -5,12 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import br.com.pedrodimoura.rxandroidmeetup.R;
+import br.com.pedrodimoura.rxandroidmeetup.databinding.DetailReposItemBinding;
 import br.com.pedrodimoura.rxandroidmeetup.model.entity.impl.ReposPayload;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by pedrodimoura on 08/08/16.
@@ -38,7 +36,9 @@ public class UserReposRecyclerViewAdapter extends RecyclerView.Adapter<UserRepos
     @Override
     public UserReposViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         this.mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_repos_item, parent, false);
-        return new UserReposViewHolder(this.mView);
+        DetailReposItemBinding detailReposItemBinding =
+                DetailReposItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new UserReposViewHolder(detailReposItemBinding);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class UserReposRecyclerViewAdapter extends RecyclerView.Adapter<UserRepos
 
         holder.setIsRecyclable(false);
 
-        holder.textViewReposName.setText(this.mReposPayload.getItems().get(position).getName());
+        holder.detailReposItemBinding.textViewReposName.setText(this.mReposPayload.getItems().get(position).getName());
 
     }
 
@@ -57,12 +57,11 @@ public class UserReposRecyclerViewAdapter extends RecyclerView.Adapter<UserRepos
 
     public class UserReposViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.textViewReposName)
-        TextView textViewReposName;
+        private final DetailReposItemBinding detailReposItemBinding;
 
-        public UserReposViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(UserReposViewHolder.this, itemView);
+        public UserReposViewHolder(DetailReposItemBinding detailReposItemBinding) {
+            super(detailReposItemBinding.getRoot());
+            this.detailReposItemBinding = detailReposItemBinding;
         }
     }
 
